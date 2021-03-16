@@ -1,18 +1,24 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, SafeAreaView, Text, Animated } from "react-native";
 import { WebView } from "react-native-webview";
-import AnimatedLoader from "react-native-animated-loader";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
+import AnimatedElement from "./components/Animated";
+import CustomButton from "./components/Button";
+import FontsConstants from "./constants/FontsConstants";
+import TextConstants from "./constants/TextConstants";
 
 export default function App() {
   const [visible, setVisible] = useState(false);
   const [fontIsLoaded, setFontIsLoaded] = useState(false);
+  const [conError, setConError] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const webViewRef = useRef();
 
   const fetchFonts = () => {
     return Font.loadAsync({
       "product-sans-bold": require("./assets/fonts/ProductSans-Bold.ttf"),
+      "product-sans": require("./assets/fonts/ProductSans-Regular.ttf"),
     });
   };
 
@@ -30,34 +36,41 @@ export default function App() {
     Animated.loop(
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 1500,
+        duration: 1900,
         useNativeDriver: true,
       })
     ).start();
   };
 
-  const ActivityIndicatorElement = () => {
+  if (conError) {
     return (
-      <AnimatedLoader
-        visible={visible}
-        overlayColor="rgba(255,255,255,0.75)"
-        source={require("./loader.json")}
-        animationStyle={styles.lottie}
-        speed={1}
-      >
-        <Animated.View style={{ opacity: fadeAnim }}>
-          <Text
-            style={{ fontFamily: "product-sans-bold", textAlign: "center" }}
-          >
-          Swapping time and space...👩🏿‍💻
-          </Text>
-        </Animated.View>
-      </AnimatedLoader>
+      <SafeAreaView style={styles.errorParent}>
+        <AnimatedElement
+          color="rgba(255,255,255,0.75)"
+          lottiePath={require("./no-internet-connection-empty-state.json")}
+          visible={conError}
+          style={{ height: 200 }}
+        >
+          <Text style={styles.title}>{TextConstants.NO_INTERNET_TITLE}</Text>
+          <Text style={styles.desc}>{TextConstants.NO_INTERNET_DESC}</Text>
+          <CustomButton
+            text={TextConstants.RETRY}
+            onPress={() => webViewRef.reload}
+            textStyle={{ ...styles.textStyle, color: "white" }}
+            buttonStyle={{ backgroundColor: "red", marginTop: 20 }}
+          />
+        </AnimatedElement>
+      </SafeAreaView>
     );
-  };
+  }
   return (
     <SafeAreaView style={styles.container}>
       <WebView
+        ref={(ref) => (webViewRef.current = ref)}
+        onError={() => {
+          setConError(true);
+          setVisible(false);
+        }}
         style={{ flex: 1 }}
         source={{ uri: "https://flic.xyz/" }}
         javaScriptEnabled={true}
@@ -67,9 +80,22 @@ export default function App() {
           setVisible(true);
           fadeOut();
         }}
-        onLoad={() => setVisible(false)}
+        onLoad={() => {
+          setVisible(false);
+          setConError(false);
+        }}
       />
-      {visible ? <ActivityIndicatorElement /> : null}
+      {visible ? (
+        <AnimatedElement
+          color="rgba(255,255,255,0.75)"
+          fadeAnim={fadeAnim}
+          lottiePath={require("./loader.json")}
+          visible={visible}
+          style={styles.lottie}
+        >
+          <Text style={styles.textStyle}>"Swapping time and space...👩🏿‍💻"</Text>
+        </AnimatedElement>
+      ) : null}
     </SafeAreaView>
   );
 }
@@ -79,22 +105,31 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  // activityIndicator: {
-  //   flex: 1,
-  //   position: "absolute",
-  //   marginLeft: "auto",
-  //   marginRight: "auto",
-  //   marginTop: "auto",
-  //   marginBottom: "auto",
-  //   left: 0,
-  //   right: 0,
-  //   top: 0,
-  //   bottom: 0,
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  // },
   lottie: {
     width: 100,
     height: 100,
+  },
+  errorParent: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "white",
+  },
+  textStyle: {
+    fontFamily: FontsConstants.PRO_SANS,
+    textAlign: "center",
+  },
+  desc: {
+    fontFamily: "product-sans",
+    fontSize: 19,
+    alignItems: "center",
+    textAlign: "center",
+    justifyContent: "center",
+  },
+  title: {
+    fontFamily: FontsConstants.PRO_SANS,
+    textAlign: "center",
+    fontSize: 27,
+    alignItems: "center",
   },
 });
