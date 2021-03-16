@@ -3,17 +3,19 @@ import { StyleSheet, SafeAreaView, Text, Animated } from "react-native";
 import { WebView } from "react-native-webview";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
+
 import AnimatedElement from "./components/Animated";
 import CustomButton from "./components/Button";
 import FontsConstants from "./constants/FontsConstants";
 import TextConstants from "./constants/TextConstants";
+import Colors from "./constants/Colors";
 
 export default function App() {
   const [visible, setVisible] = useState(false);
   const [fontIsLoaded, setFontIsLoaded] = useState(false);
   const [conError, setConError] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const webViewRef = useRef();
+  const [webViewKey, setWebViewKey] = useState(0);
 
   const fetchFonts = () => {
     return Font.loadAsync({
@@ -46,7 +48,7 @@ export default function App() {
     return (
       <SafeAreaView style={styles.errorParent}>
         <AnimatedElement
-          color="rgba(255,255,255,0.75)"
+          color={Colors.lottieBg}
           lottiePath={require("./no-internet-connection-empty-state.json")}
           visible={conError}
           style={{ height: 200 }}
@@ -55,9 +57,14 @@ export default function App() {
           <Text style={styles.desc}>{TextConstants.NO_INTERNET_DESC}</Text>
           <CustomButton
             text={TextConstants.RETRY}
-            onPress={() => webViewRef.reload}
-            textStyle={{ ...styles.textStyle, color: "white" }}
-            buttonStyle={{ backgroundColor: "red", marginTop: 20 }}
+            onPress={() => {
+              setConError(false);
+              setVisible(true);
+              //reload the webpage
+              setWebViewKey((prevState) => prevState + 1);
+            }}
+            textStyle={{ ...styles.textStyle, color: Colors.white }}
+            buttonStyle={{ backgroundColor: Colors.red, marginTop: 20 }}
           />
         </AnimatedElement>
       </SafeAreaView>
@@ -66,13 +73,13 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <WebView
-        ref={(ref) => (webViewRef.current = ref)}
+        key={webViewKey}
         onError={() => {
           setConError(true);
           setVisible(false);
         }}
         style={{ flex: 1 }}
-        source={{ uri: "https://flic.xyz/" }}
+        source={{ uri: TextConstants.FLIC_URL }}
         javaScriptEnabled={true}
         //enable cache
         domStorageEnabled={true}
@@ -87,13 +94,13 @@ export default function App() {
       />
       {visible ? (
         <AnimatedElement
-          color="rgba(255,255,255,0.75)"
+          color={Colors.lottieBg}
           fadeAnim={fadeAnim}
           lottiePath={require("./loader.json")}
           visible={visible}
           style={styles.lottie}
         >
-          <Text style={styles.textStyle}>"Swapping time and space...👩🏿‍💻"</Text>
+          <Text style={styles.textStyle}>{TextConstants.LOADING_TEXT}</Text>
         </AnimatedElement>
       ) : null}
     </SafeAreaView>
@@ -103,7 +110,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: Colors.white,
   },
   lottie: {
     width: 100,
@@ -113,21 +120,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "white",
+    backgroundColor: Colors.white,
   },
   textStyle: {
     fontFamily: FontsConstants.PRO_SANS,
     textAlign: "center",
   },
   desc: {
-    fontFamily: "product-sans",
-    fontSize: 19,
+    fontFamily: FontsConstants.PRO_SANS_BOLD,
+    fontSize: 15,
     alignItems: "center",
     textAlign: "center",
     justifyContent: "center",
+    color: Colors.grey,
   },
   title: {
-    fontFamily: FontsConstants.PRO_SANS,
+    fontFamily: FontsConstants.PRO_SANS_BOLD,
     textAlign: "center",
     fontSize: 27,
     alignItems: "center",
