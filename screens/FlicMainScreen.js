@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, SafeAreaView, Text, Animated } from "react-native";
 import { WebView } from "react-native-webview";
 
-import AnimatedElement from "./components/Animated";
-import CustomButton from "./components/Button";
-import FontsConstants from "./constants/FontsConstants";
-import TextConstants from "./constants/TextConstants";
-import Colors from "./constants/Colors";
+import AnimatedElement from "../components/Animated";
+import CustomButton from "../components/Button";
+import FontsConstants from "../constants/FontsConstants";
+import TextConstants from "../constants/TextConstants";
+import Colors from "../constants/Colors";
 
 const FlicMainScreen = (props) => {
   const [visible, setVisible] = useState(false);
@@ -29,7 +29,7 @@ const FlicMainScreen = (props) => {
       <SafeAreaView style={styles.errorParent}>
         <AnimatedElement
           color={Colors.lottieBg}
-          lottiePath={require("./no-internet-connection-empty-state.json")}
+          lottiePath={require("../no-internet-connection-empty-state.json")}
           visible={conError}
           style={{ height: 200 }}
         >
@@ -77,7 +77,7 @@ const FlicMainScreen = (props) => {
         <AnimatedElement
           color={Colors.lottieBg}
           fadeAnim={fadeAnim}
-          lottiePath={require("./loader.json")}
+          lottiePath={require("../loader.json")}
           visible={visible}
           style={styles.lottie}
         >

@@ -21,10 +21,15 @@ const slides = [
   ),
   new Slide(
     "MORE SECURITY🔒🔒",
-    "Your account is fully secure. We never share your data with third party..",
+    "Your account is fully secure. We never share your data with any third party..",
     "#071524",
-    require()
+    require("../lottie/security.json")
   ),
-  new Slide("LETS GO😁", "fifth description", "#fbbb1f", require()),
+  new Slide(
+    "LETS GO😁",
+    "fifth description",
+    "#fbbb1f",
+    require("../lottie/gets-started.json")
+  ),
 ];
 export default slides;
