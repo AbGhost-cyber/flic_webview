@@ -12,7 +12,7 @@ import SlideData from "../data/SlideData";
 import SlideItem from "../components/SlideItem";
 import SubSlide from "../components/SubSlide";
 
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 const OnBoardingScreen = (props) => {
   const scroll = useRef(null);
   const { scrollHandler, x } = useScrollHandler();
@@ -22,7 +22,7 @@ const OnBoardingScreen = (props) => {
   });
   return (
     <View style={styles.container}>
-      <Animated.View style={{ backgroundColor: backgroundColor }}>
+      <Animated.View style={{ ...styles.slider }}>
         <Animated.ScrollView
           ref={scroll}
           horizontal
@@ -38,43 +38,46 @@ const OnBoardingScreen = (props) => {
               title={slide.title}
               description={slide.description}
               key={index}
-              lottiePath={slide.image}
+              index={index}
+              picture={slide.image}
             />
           ))}
         </Animated.ScrollView>
-      </Animated.View>
-
-      <Animated.View
-        style={{
-          flexDirection: "row",
-          width: width * SlideData.length,
-          transform: [{ translateX: multiply(x, -1) }],
-          backgroundColor: backgroundColor,
-        }}
-      >
-        {SlideData.map((slide, index) => (
-          <SubSlide
-            title={slide.title}
-            description={slide.description}
-            key={index}
-            last={index == SlideData.length - 1}
-            onPress={() => {
-              if (scroll.current) {
-                scroll.current
-                  .getNode()
-                  .scrollTo({ x: width * (index + 1), animated: true });
-              }
-            }}
-          />
-        ))}
       </Animated.View>
       <View style={styles.footer}>
         <Animated.View
           style={{
             ...StyleSheet.absoluteFillObject,
-            backgroundColor: backgroundColor,
+            backgroundColor: "black",
+            borderTopRightRadius: 46,
+            borderTopLeftRadius: 46,
           }}
         />
+        <View style={styles.footerContainer}>
+          <Animated.View
+            style={{
+              flexDirection: "row",
+              width: width * SlideData.length,
+              transform: [{ translateX: multiply(x, -1) }],
+            }}
+          >
+            {SlideData.map((slide, index) => (
+              <SubSlide
+                title={slide.title}
+                description={slide.description}
+                key={index}
+                last={index == SlideData.length - 1}
+                onPress={() => {
+                  if (scroll.current) {
+                    scroll.current
+                      .getNode()
+                      .scrollTo({ x: width * (index + 1), animated: true });
+                  }
+                }}
+              />
+            ))}
+          </Animated.View>
+        </View>
       </View>
     </View>
   );
@@ -83,12 +86,19 @@ const OnBoardingScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // backgroundColor: "black",
   },
   footer: {
+    elevation: 8,
     flex: 1,
+    paddingVertical: 40,
   },
   footerContainer: {
     flex: 1,
+    backgroundColor: "black",
+  },
+  slider: {
+    height: height / 2,
   },
 });
 

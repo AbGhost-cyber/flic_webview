@@ -5,31 +5,31 @@ const slides = [
     "DISCOVER🕵🏽‍♀️🕵🏾",
     "Discover new people, create new connections and make new friends",
     "#f2b4b9",
-    require("../lottie/connect-friends.json")
+    require("./friends.jpg")
   ),
   new Slide(
     "100% PRIVACY💼👓",
     "You have full control over your personal information that you share",
     "#2a5a77",
-    require("../lottie/account-privacy.json")
+    require("./privacy.jpg")
   ),
   new Slide(
     "TOTAL FLICS💥💥",
     "Connect with millions of Businesses in China today.",
     "#04a5b2",
-    require("../lottie/business-project.json")
+    require("./business.jpg")
   ),
   new Slide(
     "MORE SECURITY🔒🔒",
     "Your account is fully secure. We never share your data with any third party..",
     "#071524",
-    require("../lottie/security.json")
+    require("./security.jpg")
   ),
   new Slide(
-    "LETS GO😁",
-    "fifth description",
+    "YASS 😁",
+    "sign up within seconds..",
     "#fbbb1f",
-    require("../lottie/gets-started.json")
+    require("./getting-started.jpg")
   ),
 ];
 export default slides;

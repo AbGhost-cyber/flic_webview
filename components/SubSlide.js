@@ -15,17 +15,19 @@ const SubSlide = (props) => {
         text={props.last ? "Let's get started" : "Next"}
         textStyle={{
           fontFamily: FontsConstants.PRO_SANS_BOLD,
-          color: "black",
+          color: props.last ? "white" : "black",
           fontSize: 15,
           textAlign: "center",
-          fontWeight: 700,
+          fontWeight: "700",
         }}
         buttonStyle={{
-          backgroundColor: "white",
+          backgroundColor: props.last ? "black" : "white",
           width: 245,
           height: 50,
           marginTop: 20,
           borderRadius: 25,
+          borderColor: props.last ? "white" : "black",
+          borderWidth: 1
         }}
         onPress={props.onPress}
       />

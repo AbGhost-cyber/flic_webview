@@ -12,15 +12,14 @@ const { width, height } = Dimensions.get("window");
 const SlideItem = (props) => {
   return (
     <View style={styles.parent}>
-      <View style={styles.underlay}>
-        <LottieAnimation
-          source={props.lottiePath}
-          loop={false}
-          speed={1}
-          style={{ width: width, marginTop: 20 }}
-        />
-      </View>
-    
+      <Image
+        source={props.picture}
+        style={{
+          width: props.index === 1 ? width - 6 : width,
+          height: 400,
+          marginTop: 12,
+        }}
+      />
     </View>
   );
 };
@@ -30,14 +29,18 @@ export default SlideItem;
 const styles = StyleSheet.create({
   parent: {
     width: width,
-    // height: height,
-    justifyContent: "center",
-    alignItems: "center",
     overflow: "hidden",
   },
   underlay: {
-    height: height * 6,
+    ...StyleSheet.absoluteFillObject,
     justifyContent: "flex-start",
+  },
+  picture: {
+    // ...StyleSheet.absoluteFillObject,
+    // width: undefined,
+    // height: undefined,
+    width: width,
+    height: 400,
   },
 });
 
