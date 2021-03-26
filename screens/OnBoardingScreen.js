@@ -11,18 +11,17 @@ import {
 import SlideData from "../data/SlideData";
 import SlideItem from "../components/SlideItem";
 import SubSlide from "../components/SubSlide";
+import Dots from "../components/Dots";
 
 const { width, height } = Dimensions.get("window");
+
 const OnBoardingScreen = (props) => {
   const scroll = useRef(null);
   const { scrollHandler, x } = useScrollHandler();
-  const backgroundColor = interpolateColor(x, {
-    inputRange: SlideData.map((_, i) => i * width),
-    outputRange: SlideData.map((slide) => slide.color),
-  });
+
   return (
     <View style={styles.container}>
-      <Animated.View style={{ ...styles.slider }}>
+      <Animated.View style={styles.slider}>
         <Animated.ScrollView
           ref={scroll}
           horizontal
@@ -34,25 +33,12 @@ const OnBoardingScreen = (props) => {
           {...scrollHandler}
         >
           {SlideData.map((slide, index) => (
-            <SlideItem
-              title={slide.title}
-              description={slide.description}
-              key={index}
-              index={index}
-              picture={slide.image}
-            />
+            <SlideItem key={index} index={index} picture={slide.image} />
           ))}
         </Animated.ScrollView>
       </Animated.View>
       <View style={styles.footer}>
-        <Animated.View
-          style={{
-            ...StyleSheet.absoluteFillObject,
-            backgroundColor: "black",
-            borderTopRightRadius: 46,
-            borderTopLeftRadius: 46,
-          }}
-        />
+        <Animated.View style={styles.subFooter} />
         <View style={styles.footerContainer}>
           <Animated.View
             style={{
@@ -77,6 +63,11 @@ const OnBoardingScreen = (props) => {
               />
             ))}
           </Animated.View>
+          <View style={styles.pagination}>
+            {SlideData.map((_, index) => (
+              <Dots index={index} currentIndex={divide(x, width)} key={index} />
+            ))}
+          </View>
         </View>
       </View>
     </View>
@@ -86,7 +77,6 @@ const OnBoardingScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "black",
   },
   footer: {
     elevation: 8,
@@ -99,6 +89,19 @@ const styles = StyleSheet.create({
   },
   slider: {
     height: height / 2,
+  },
+  subFooter: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "black",
+    borderTopRightRadius: 46,
+    borderTopLeftRadius: 46,
+  },
+  pagination: {
+    //...StyleSheet.absoluteFillObject,
+    height: 75,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
   },
 });
 

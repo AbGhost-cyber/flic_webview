@@ -1,11 +1,9 @@
 import React from "react";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import FontsConstants from "../constants/FontsConstants";
 import Button from "../components/Button";
-import Colors from "../constants/Colors";
 
-const { width } = Dimensions.get("window");
 const SubSlide = (props) => {
   return (
     <View style={styles.container}>
@@ -18,7 +16,6 @@ const SubSlide = (props) => {
           color: props.last ? "white" : "black",
           fontSize: 15,
           textAlign: "center",
-          fontWeight: "700",
         }}
         buttonStyle={{
           backgroundColor: props.last ? "black" : "white",
@@ -27,7 +24,7 @@ const SubSlide = (props) => {
           marginTop: 20,
           borderRadius: 25,
           borderColor: props.last ? "white" : "black",
-          borderWidth: 1
+          borderWidth: 1,
         }}
         onPress={props.onPress}
       />

@@ -18,6 +18,4 @@ const AnimatedElement = (props) => {
   );
 };
 
-const styles = StyleSheet.create({});
-
 export default AnimatedElement;

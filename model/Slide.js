@@ -1,10 +1,9 @@
-class Slide{
-    constructor(title, description, color, image){
-        this.title = title
-        this.description = description
-        this.color = color
-        this.image = image
-    }
+class Slide {
+  constructor(title, description, image) {
+    this.title = title;
+    this.description = description;
+    this.image = image;
+  }
 }
 
-export default Slide
+export default Slide;
