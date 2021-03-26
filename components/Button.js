@@ -17,7 +17,7 @@ const CustomButton = (props) => {
 const styles = StyleSheet.create({
   parent: {
     elevation: 3,
-    borderRadius: 5,
+    borderRadius: 25,
     padding: 15,
   },
 });

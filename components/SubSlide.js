@@ -22,7 +22,6 @@ const SubSlide = (props) => {
           width: 245,
           height: 50,
           marginTop: 20,
-          borderRadius: 25,
           borderColor: props.last ? "white" : "black",
           borderWidth: 1,
         }}

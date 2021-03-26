@@ -1,12 +1,7 @@
 import React, { useRef } from "react";
-import { View, Text, Dimensions, StyleSheet } from "react-native";
+import { View, Dimensions, StyleSheet } from "react-native";
 import Animated, { multiply, divide } from "react-native-reanimated";
-import {
-  useValue,
-  onScrollEvent,
-  interpolateColor,
-  useScrollHandler,
-} from "react-native-redash/lib/module/v1";
+import { useScrollHandler } from "react-native-redash/lib/module/v1";
 
 import SlideData from "../data/SlideData";
 import SlideItem from "../components/SlideItem";
@@ -54,10 +49,15 @@ const OnBoardingScreen = (props) => {
                 key={index}
                 last={index == SlideData.length - 1}
                 onPress={() => {
-                  if (scroll.current) {
+                  if (scroll.current && !(index == SlideData.length - 1)) {
                     scroll.current
                       .getNode()
                       .scrollTo({ x: width * (index + 1), animated: true });
+                  } else {
+                    //navigate to main screen
+                    props.navigation.navigate({
+                      routeName: "mainScreen",
+                    });
                   }
                 }}
               />
