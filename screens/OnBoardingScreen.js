@@ -1,12 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import Animated, { multiply, divide } from "react-native-reanimated";
 import { useScrollHandler } from "react-native-redash/lib/module/v1";
+import { StackActions, NavigationActions } from "react-navigation";
 
 import SlideData from "../data/SlideData";
 import SlideItem from "../components/SlideItem";
 import SubSlide from "../components/SubSlide";
 import Dots from "../components/Dots";
+import FlicMainScreen from "./FlicMainScreen";
 
 const { width, height } = Dimensions.get("window");
 
@@ -54,10 +56,7 @@ const OnBoardingScreen = (props) => {
                       .getNode()
                       .scrollTo({ x: width * (index + 1), animated: true });
                   } else {
-                    //navigate to main screen
-                    props.navigation.navigate({
-                      routeName: "mainScreen",
-                    });
+                    props.showMainScreen()
                   }
                 }}
               />

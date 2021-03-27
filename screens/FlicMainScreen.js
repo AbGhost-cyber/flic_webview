@@ -55,10 +55,10 @@ const FlicMainScreen = (props) => {
     <SafeAreaView style={styles.container}>
       <WebView
         key={webViewKey}
-        // onError={() => {
-        //   setConError(true);
-        //   setVisible(false);
-        // }}
+        onError={() => {
+          setConError(true);
+          setVisible(false);
+        }}
         renderError={() => {
           setConError(true);
           setVisible(false);

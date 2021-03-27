@@ -6,7 +6,6 @@ import FlicMainScreen from "../screens/FlicMainScreen";
 
 const FlicWebViewNavigator = createStackNavigator(
   {
-    onBoarding: OnBoardingScreen,
     mainScreen: FlicMainScreen,
   },
   {
@@ -15,4 +14,4 @@ const FlicWebViewNavigator = createStackNavigator(
     },
   }
 );
-export default createAppContainer(FlicWebViewNavigator)
+export default createAppContainer(FlicWebViewNavigator);
