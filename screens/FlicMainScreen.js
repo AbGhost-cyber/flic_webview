@@ -76,7 +76,6 @@ const FlicMainScreen = (props) => {
           setVisible(false);
           setConError(false);
         }}
-        startInLoadingState
       />
       {visible ? (
         <AnimatedElement

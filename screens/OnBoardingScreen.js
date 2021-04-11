@@ -1,20 +1,44 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import Animated, { multiply, divide } from "react-native-reanimated";
 import { useScrollHandler } from "react-native-redash/lib/module/v1";
-import { StackActions, NavigationActions } from "react-navigation";
 
 import SlideData from "../data/SlideData";
 import SlideItem from "../components/SlideItem";
 import SubSlide from "../components/SubSlide";
 import Dots from "../components/Dots";
-import FlicMainScreen from "./FlicMainScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get("window");
 
 const OnBoardingScreen = (props) => {
   const scroll = useRef(null);
   const { scrollHandler, x } = useScrollHandler();
+  const[isDone, setIsDone] = useState(false)
+
+  useEffect(() => {
+    const retrieveData = async () => {
+      try {
+        const value = await AsyncStorage.getItem("isLoggedIn")
+        if (value === null) {
+          //exhaust the statement
+        } else if (value || isDone) {
+         props.navigation.navigate("mainScreen");
+        }
+        console.log("value " + value);
+      } catch (error) {}
+    };
+    retrieveData();
+  },[isDone]);
+ 
+
+  const onDone = useCallback(async () => {
+    await AsyncStorage.setItem("isLoggedIn","true");
+     setIsDone(true)
+     console.log(isDone);
+  },[]);
+
+  
 
   return (
     <View style={styles.container}>
@@ -51,12 +75,12 @@ const OnBoardingScreen = (props) => {
                 key={index}
                 last={index == SlideData.length - 1}
                 onPress={() => {
-                  if (scroll.current && !(index == SlideData.length - 1)) {
+                  if (scroll.current && !(index === SlideData.length - 1)) {
                     scroll.current
                       .getNode()
                       .scrollTo({ x: width * (index + 1), animated: true });
-                  } else {
-                    props.showMainScreen()
+                  } else if (index === SlideData.length - 1) {
+                    onDone()
                   }
                 }}
               />

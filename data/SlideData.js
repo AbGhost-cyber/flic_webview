@@ -3,12 +3,12 @@ import Slide from "../model/Slide";
 const slides = [
   new Slide(
     "DISCOVER🕵🏽‍♀️🕵🏾",
-    "Discover new people, create new connections and make new friends",
+    "Discover new people, create new connections and make new friends.",
     require("./friends.jpg")
   ),
   new Slide(
     "100% PRIVACY💼👓",
-    "You have full control over your personal information that you share",
+    "You have full control over your personal information that you share.",
     require("./privacy.jpg")
   ),
   new Slide(
@@ -22,7 +22,7 @@ const slides = [
     require("./security.jpg")
   ),
   new Slide(
-    "YASS 😁",
+    "One step at a time 🤛🏽",
     "sign up within seconds..",
     require("./getting-started.jpg")
   ),
