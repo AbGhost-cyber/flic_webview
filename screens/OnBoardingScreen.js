@@ -23,9 +23,8 @@ const OnBoardingScreen = (props) => {
         if (value === null) {
           //exhaust the statement
         } else if (value || isDone) {
-         props.navigation.navigate("mainScreen");
+         props.navigation.replace("mainScreen");
         }
-        console.log("value " + value);
       } catch (error) {}
     };
     retrieveData();
@@ -35,7 +34,6 @@ const OnBoardingScreen = (props) => {
   const onDone = useCallback(async () => {
     await AsyncStorage.setItem("isLoggedIn","true");
      setIsDone(true)
-     console.log(isDone);
   },[]);
 
   
