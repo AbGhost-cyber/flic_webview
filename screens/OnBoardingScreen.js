@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import Animated, { multiply, divide } from "react-native-reanimated";
 import { useScrollHandler } from "react-native-redash/lib/module/v1";
+import { StatusBar } from "expo-status-bar";
 
 import SlideData from "../data/SlideData";
 import SlideItem from "../components/SlideItem";
@@ -14,32 +15,28 @@ const { width, height } = Dimensions.get("window");
 const OnBoardingScreen = (props) => {
   const scroll = useRef(null);
   const { scrollHandler, x } = useScrollHandler();
-  const[isDone, setIsDone] = useState(false)
+  const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
     const retrieveData = async () => {
       try {
-        const value = await AsyncStorage.getItem("isLoggedIn")
-        if (value === null) {
-          //exhaust the statement
-        } else if (value || isDone) {
-         props.navigation.replace("mainScreen");
+        const value = await AsyncStorage.clear();
+        if (value || isDone) {
+          props.navigation.replace("mainScreen");
         }
       } catch (error) {}
     };
     retrieveData();
-  },[isDone]);
- 
+  }, [isDone]);
 
   const onDone = useCallback(async () => {
-    await AsyncStorage.setItem("isLoggedIn","true");
-     setIsDone(true)
-  },[]);
-
-  
+    await AsyncStorage.setItem("isLoggedIn", "true");
+    setIsDone(true);
+  }, []);
 
   return (
     <View style={styles.container}>
+    <StatusBar/>
       <Animated.View style={styles.slider}>
         <Animated.ScrollView
           ref={scroll}
@@ -78,7 +75,7 @@ const OnBoardingScreen = (props) => {
                       .getNode()
                       .scrollTo({ x: width * (index + 1), animated: true });
                   } else if (index === SlideData.length - 1) {
-                    onDone()
+                    onDone();
                   }
                 }}
               />

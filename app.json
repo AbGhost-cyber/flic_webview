@@ -21,9 +21,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.jpg",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.glitzhub.fliclite"
     },
     "web": {
       "favicon": "./assets/favicon.png"

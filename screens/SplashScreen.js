@@ -1,10 +1,19 @@
-import React, { useRef, useEffect } from "react";
-import { StyleSheet, Dimensions, Animated } from "react-native";
-import Colors from "../constants/Colors";
+import React, { useRef, useEffect, useState, useCallback } from "react";
+import {
+  StyleSheet,
+  Dimensions,
+  Animated,
+  View,
+  Tex,
+  Text,
+} from "react-native";
+import { Easing } from "react-native-reanimated";
+import AnimatedSplash from "react-native-animated-splash-screen";
 
+import Colors from "../constants/Colors";
 import FontsConstants from "../constants/FontsConstants";
 
-const SplashScreen = (props) => {
+const SplashItem = ({ isLoaded, navigation }) => {
   const moveAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -12,18 +21,18 @@ const SplashScreen = (props) => {
     let timeout = setTimeout(() => {
       Animated.sequence([
         Animated.timing(moveAnim, {
-          duration: 1500,
+          duration: 2000,
           toValue: Dimensions.get("window").width / 1.6,
           delay: 1,
           useNativeDriver: false,
         }),
         Animated.timing(moveAnim, {
-          duration: 1500,
+          duration: 2400,
           toValue: 0,
           delay: 0,
           useNativeDriver: false,
         }),
-      ]).start(() => props.navigation.navigate("onBoarding"));
+      ]).start(() => navigation.navigate("onBoarding"));
 
       Animated.timing(fadeAnim, {
         duration: 1000,
@@ -37,12 +46,12 @@ const SplashScreen = (props) => {
 
   return (
     <Animated.View style={[styles.container]}>
-      <Animated.View style={{ marginLeft: moveAnim }}>
+      <Animated.View style={{ padding: moveAnim }}>
         <Animated.Image
           style={{ ...styles.imageStyle, opacity: fadeAnim }}
           source={require("../assets/icon.jpg")}
         />
-        <Animated.View style={{ marginBottom: moveAnim, flexDirection: "row" }}>
+        <Animated.View style={{ flexDirection: "row"}}>
           <Animated.Text style={styles.text}>F</Animated.Text>
           <Animated.Text style={{ ...styles.text, opacity: fadeAnim }}>
             lic Lite
@@ -52,13 +61,31 @@ const SplashScreen = (props) => {
     </Animated.View>
   );
 };
+const SplashScreen = ({ navigation }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    let timeout = setTimeout(() => {
+      setIsLoaded(true);
+    }, 4000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isLoaded]);
+
+  return (
+    <AnimatedSplash
+      backgroundColor={Colors.colorPrimary}
+      isLoaded={isLoaded}
+      preload={false}
+      customComponent={<SplashItem navigation={navigation} />}
+    />
+  );
+};
 
 export default SplashScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: Colors.colorPrimary,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
