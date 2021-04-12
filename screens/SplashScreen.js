@@ -49,7 +49,7 @@ const SplashItem = ({ isLoaded, navigation }) => {
       <Animated.View style={{ padding: moveAnim }}>
         <Animated.Image
           style={{ ...styles.imageStyle, opacity: fadeAnim }}
-          source={require("../assets/icon.jpg")}
+          source={require("../assets/icon.png")}
         />
         <Animated.View style={{ flexDirection: "row"}}>
           <Animated.Text style={styles.text}>F</Animated.Text>

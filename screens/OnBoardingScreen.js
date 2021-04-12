@@ -20,7 +20,7 @@ const OnBoardingScreen = (props) => {
   useEffect(() => {
     const retrieveData = async () => {
       try {
-        const value = await AsyncStorage.clear();
+        const value = await AsyncStorage.getItem("isLoggedIn");
         if (value || isDone) {
           props.navigation.replace("mainScreen");
         }
@@ -36,7 +36,7 @@ const OnBoardingScreen = (props) => {
 
   return (
     <View style={styles.container}>
-    <StatusBar/>
+      <StatusBar />
       <Animated.View style={styles.slider}>
         <Animated.ScrollView
           ref={scroll}
