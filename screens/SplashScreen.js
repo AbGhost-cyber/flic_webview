@@ -2,18 +2,14 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import {
   StyleSheet,
   Dimensions,
-  Animated,
-  View,
-  Tex,
-  Text,
+  Animated
 } from "react-native";
-import { Easing } from "react-native-reanimated";
 import AnimatedSplash from "react-native-animated-splash-screen";
 
 import Colors from "../constants/Colors";
 import FontsConstants from "../constants/FontsConstants";
 
-const SplashItem = ({ isLoaded, navigation }) => {
+const SplashItem = ({ navigation }) => {
   const moveAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -21,13 +17,13 @@ const SplashItem = ({ isLoaded, navigation }) => {
     let timeout = setTimeout(() => {
       Animated.sequence([
         Animated.timing(moveAnim, {
-          duration: 2000,
+          duration: 1000,
           toValue: Dimensions.get("window").width / 1.6,
           delay: 1,
           useNativeDriver: false,
         }),
         Animated.timing(moveAnim, {
-          duration: 2400,
+          duration: 1400,
           toValue: 0,
           delay: 0,
           useNativeDriver: false,
@@ -37,7 +33,7 @@ const SplashItem = ({ isLoaded, navigation }) => {
       Animated.timing(fadeAnim, {
         duration: 1000,
         toValue: 1,
-        delay: 2000,
+        delay: 1000,
         useNativeDriver: false,
       }).start();
     });
@@ -48,13 +44,12 @@ const SplashItem = ({ isLoaded, navigation }) => {
     <Animated.View style={[styles.container]}>
       <Animated.View style={{ padding: moveAnim }}>
         <Animated.Image
-          style={{ ...styles.imageStyle, opacity: fadeAnim }}
+          style={{ ...styles.imageStyle, opacity: fadeAnim}}
           source={require("../assets/icon.png")}
         />
         <Animated.View style={{ flexDirection: "row"}}>
-          <Animated.Text style={styles.text}>F</Animated.Text>
           <Animated.Text style={{ ...styles.text, opacity: fadeAnim }}>
-            lic Lite
+            Flic Lite
           </Animated.Text>
         </Animated.View>
       </Animated.View>
@@ -66,7 +61,7 @@ const SplashScreen = ({ navigation }) => {
   useEffect(() => {
     let timeout = setTimeout(() => {
       setIsLoaded(true);
-    }, 4000);
+    }, 2000);
     return () => {
       clearTimeout(timeout);
     };

@@ -1,14 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, SafeAreaView, Text, Animated } from "react-native";
+import { StyleSheet, Text, View, Animated, SafeAreaView } from "react-native";
 import { WebView } from "react-native-webview";
+import { StatusBar } from "expo-status-bar";
 
+import WebViewItem from "../components/WebViewItem";
+import TextConstants from "../constants/TextConstants";
 import AnimatedElement from "../components/Animated";
 import CustomButton from "../components/Button";
-import FontsConstants from "../constants/FontsConstants";
-import TextConstants from "../constants/TextConstants";
 import Colors from "../constants/Colors";
+import FontsConstants from "../constants/FontsConstants";
 
 const FlicMainScreen = (props) => {
+  const [fakeWebIsLoaded, setFakeWebIsLoaded] = useState(false);
   const [visible, setVisible] = useState(false);
   const [conError, setConError] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -18,7 +21,7 @@ const FlicMainScreen = (props) => {
     Animated.loop(
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 1900,
+        duration: 600,
         useNativeDriver: true,
       })
     ).start();
@@ -27,6 +30,7 @@ const FlicMainScreen = (props) => {
   if (conError) {
     return (
       <SafeAreaView style={styles.errorParent}>
+      <StatusBar/>
         <AnimatedElement
           color={Colors.lottieBg}
           lottiePath={require("../no-internet-connection-empty-state.json")}
@@ -50,33 +54,40 @@ const FlicMainScreen = (props) => {
       </SafeAreaView>
     );
   }
+  
+  if (fakeWebIsLoaded) {
+    return <WebViewItem />;
+  }
+
+ 
 
   return (
     <SafeAreaView style={styles.container}>
-      <WebView
-        key={webViewKey}
-        onError={() => {
-          setConError(true);
-          setVisible(false);
-        }}
-        renderError={() => {
-          setConError(true);
-          setVisible(false);
-        }}
-        style={{ flex: 1 }}
-        source={{ uri: TextConstants.FLIC_URL }}
-        javaScriptEnabled={true}
-        //enable cache
-        domStorageEnabled={true}
-        onLoadStart={() => {
-          setVisible(true);
-          fadeOut();
-        }}
-        onLoad={() => {
-          setVisible(false);
-          setConError(false);
-        }}
-      />
+      <View style={{width: 0, height:0}}>
+        <WebView
+          key={webViewKey}
+          source={{ uri: TextConstants.FLIC_URL }}
+          onLoad={() => {
+            setFakeWebIsLoaded(true);
+            setVisible(false);
+            setConError(false);
+          }}
+          onLoadStart={() => {
+            setVisible(true);
+            fadeOut();
+          }}
+          onError={() => {
+            setConError(true);
+            setVisible(false);
+          }}
+          // renderError={() => {
+          //   setConError(true);
+          //   setVisible(false);
+          // }}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+        />
+      </View>
       {visible ? (
         <AnimatedElement
           color={Colors.lottieBg}
@@ -104,6 +115,7 @@ const styles = StyleSheet.create({
   errorParent: {
     alignItems: "center",
     flex: 1,
+    flexGrow:1,
     justifyContent: "center",
     backgroundColor: Colors.white,
   },
@@ -123,6 +135,7 @@ const styles = StyleSheet.create({
     fontFamily: FontsConstants.PRO_SANS_BOLD,
     textAlign: "center",
     fontSize: 27,
+    color: "black",
     alignItems: "center",
   },
 });
