@@ -12,11 +12,6 @@ const slides = [
     require("./privacy.jpg")
   ),
   new Slide(
-    "TOTAL FLICS💥💥",
-    "Connect with millions of Businesses in China today.",
-    require("./business.jpg")
-  ),
-  new Slide(
     "MORE SECURITY🔒🔒",
     "Your account is fully secure. We never share your data with any third party..",
     require("./security.jpg")

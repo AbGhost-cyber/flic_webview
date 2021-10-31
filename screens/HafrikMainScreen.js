@@ -56,6 +56,7 @@ const FlicMainScreen = (props) => {
   }
   
   if (fakeWebIsLoaded) {
+    console.log(true);
     return <WebViewItem />;
   }
 
@@ -66,7 +67,7 @@ const FlicMainScreen = (props) => {
       <View style={{width: 0, height:0}}>
         <WebView
           key={webViewKey}
-          source={{ uri: TextConstants.FLIC_URL }}
+          source={{ uri: TextConstants.HAFRIK_URL }}
           onLoad={() => {
             setFakeWebIsLoaded(true);
             setVisible(false);
@@ -80,10 +81,10 @@ const FlicMainScreen = (props) => {
             setConError(true);
             setVisible(false);
           }}
-          // renderError={() => {
-          //   setConError(true);
-          //   setVisible(false);
-          // }}
+          renderError={() => {
+            setConError(true);
+            setVisible(false);
+          }}
           javaScriptEnabled={true}
           domStorageEnabled={true}
         />

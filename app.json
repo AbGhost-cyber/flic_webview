@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Flic Lite",
-    "slug": "flic_webview",
+    "name": "Hafrik Lite",
+    "slug": "hafrik_webview",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,14 +17,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.glitzhub.hafriklite"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.glitzhub.fliclite"
+      "package": "com.glitzhub.hafriklite"
     },
     "web": {
       "favicon": "./assets/favicon.png"

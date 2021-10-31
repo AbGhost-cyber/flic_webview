@@ -3,5 +3,5 @@ export default {
   white: "white",
   red: "red",
   grey: "#ccc",
-  colorPrimary: "#14568A",
+  colorPrimary: "#0b8557",
 };

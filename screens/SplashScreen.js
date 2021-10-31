@@ -1,10 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import {
-  StyleSheet,
-  Dimensions,
-  Animated
-} from "react-native";
+import { StyleSheet, Dimensions, Animated } from "react-native";
 import AnimatedSplash from "react-native-animated-splash-screen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Colors from "../constants/Colors";
 import FontsConstants from "../constants/FontsConstants";
@@ -12,6 +9,19 @@ import FontsConstants from "../constants/FontsConstants";
 const SplashItem = ({ navigation }) => {
   const moveAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const retrieveData = useCallback(async () => {
+    try {
+      const value = await AsyncStorage.getItem("isLoggedIn");
+      if (value) {
+        navigation.replace("mainScreen");
+      } else {
+        navigation.replace("onBoarding");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, []);
 
   useEffect(() => {
     let timeout = setTimeout(() => {
@@ -28,7 +38,7 @@ const SplashItem = ({ navigation }) => {
           delay: 0,
           useNativeDriver: false,
         }),
-      ]).start(() => navigation.navigate("onBoarding"));
+      ]).start(() => retrieveData());
 
       Animated.timing(fadeAnim, {
         duration: 1000,
@@ -44,12 +54,12 @@ const SplashItem = ({ navigation }) => {
     <Animated.View style={[styles.container]}>
       <Animated.View style={{ padding: moveAnim }}>
         <Animated.Image
-          style={{ ...styles.imageStyle, opacity: fadeAnim}}
+          style={{ ...styles.imageStyle, opacity: fadeAnim }}
           source={require("../assets/icon.png")}
         />
-        <Animated.View style={{ flexDirection: "row"}}>
+        <Animated.View style={{display:'flex', width:120}}>
           <Animated.Text style={{ ...styles.text, opacity: fadeAnim }}>
-            Flic Lite
+            Hafrik Lite
           </Animated.Text>
         </Animated.View>
       </Animated.View>

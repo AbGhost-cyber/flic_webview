@@ -13,7 +13,7 @@ const WebViewItem = (props) => {
       <StatusBar />
       <WebView
         style={{ flex: 1 }}
-        source={{ uri: TextConstants.FLIC_URL }}
+        source={{ uri: TextConstants.HAFRIK_URL }}
         javaScriptEnabled={true}
         //enable cache
         domStorageEnabled={true}

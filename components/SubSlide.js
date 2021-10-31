@@ -22,7 +22,7 @@ const SubSlide = (props) => {
           width: 245,
           height: 50,
           marginTop: 20,
-          borderColor: props.last ? "white" : "black",
+          borderColor: props.last ? "white" : "#0b8557",
           borderWidth: 1,
         }}
         onPress={props.onPress}

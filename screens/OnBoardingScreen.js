@@ -12,26 +12,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get("window");
 
-const OnBoardingScreen = (props) => {
+const OnBoardingScreen = ({ navigation }) => {
   const scroll = useRef(null);
   const { scrollHandler, x } = useScrollHandler();
-  const [isDone, setIsDone] = useState(false);
-
-  useEffect(() => {
-    const retrieveData = async () => {
-      try {
-        const value = await AsyncStorage.getItem("isLoggedIn");
-        if (value || isDone) {
-          props.navigation.replace("mainScreen");
-        }
-      } catch (error) {}
-    };
-    retrieveData();
-  }, [isDone]);
 
   const onDone = useCallback(async () => {
     await AsyncStorage.setItem("isLoggedIn", "true");
-    setIsDone(true);
+    navigation.navigate("mainScreen");
   }, []);
 
   return (
@@ -103,14 +90,14 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#0b8557",
   },
   slider: {
     height: height / 2,
   },
   subFooter: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "black",
+    backgroundColor: "#0b8557",
     borderTopRightRadius: 46,
     borderTopLeftRadius: 46,
   },
